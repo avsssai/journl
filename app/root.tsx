@@ -16,6 +16,7 @@ import {
 import tailwindCSS from "./tailwind.css?url";
 import { themeSessionResolver } from "./sessions.server";
 import { PropsWithChildren } from "react";
+import Header from "./components/Header";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindCSS },
@@ -52,6 +53,7 @@ export function App({ children }: PropsWithChildren) {
         <Links />
       </head>
       <body>
+        <Header />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
