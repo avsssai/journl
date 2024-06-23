@@ -21,7 +21,7 @@ export default function Index() {
         <form action="/new">
           <button
             type="submit"
-            className="bg-gray-300 w-full  flex justify-center items-center rounded-lg p-2"
+            className="bg-stone-800 h-[100px] flex justify-center items-center rounded-lg p-2"
           >
             <Plus color="gray" strokeWidth={3} />
           </button>

@@ -19,7 +19,9 @@ export default function Header() {
             </DrawerTrigger>
             <DrawerContent>
               <DrawerHeader>
-                <h1 className="font-bold mb-8">Journl.</h1>
+                <h1 className="font-bold mb-8">
+                  <Link to={"/"}>Journl.</Link>
+                </h1>
                 {/* !Todo -  code if a user is present comes here */}
                 <Link to={"/login"} className="flex gap-2 items-center">
                   <User size={20} />
@@ -28,7 +30,9 @@ export default function Header() {
               </DrawerHeader>
             </DrawerContent>
           </Drawer>
-          <h2 className="font-bold">Journl.</h2>
+          <h2 className="font-bold">
+            <Link to={"/"}>Journl.</Link>
+          </h2>
         </div>
         <ModeToggle />
       </section>
