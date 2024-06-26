@@ -63,7 +63,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       formError: "Invalid username or password",
     });
   }
-  return createUserSession(user.id, "/home");
+  return createUserSession(user.id, "/");
 };
 
 export default function Login({ className, ...props }: CardProps) {

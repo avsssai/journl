@@ -1,13 +1,30 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { Plus } from "lucide-react";
 import { ModeToggle } from "~/components/mode-toggle";
 import { Button } from "~/components/ui/button";
+import { db } from "~/utils/db.server";
+import { requireUserId } from "~/utils/session.server";
 
 export const meta: MetaFunction = () => {
   return [
     { title: "New Remix App" },
     { name: "description", content: "Welcome to Remix!" },
   ];
+};
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const userId = await requireUserId(request);
+  const userDetails = await db.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+  return {
+    user: {
+      email: userDetails?.email,
+      userId: userDetails?.id,
+    },
+  };
 };
 
 export default function Index() {

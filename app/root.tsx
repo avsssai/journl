@@ -17,6 +17,7 @@ import tailwindCSS from "./tailwind.css?url";
 import { themeSessionResolver } from "./sessions.server";
 import { PropsWithChildren } from "react";
 import Header from "./components/Header";
+import { getUserId } from "./utils/session.server";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwindCSS },
@@ -24,8 +25,10 @@ export const links: LinksFunction = () => [
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { getTheme } = await themeSessionResolver(request);
+  const user = await getUserId(request);
   return {
     theme: getTheme(),
+    user,
   };
 }
 
@@ -53,7 +56,7 @@ export function App({ children }: PropsWithChildren) {
         <Links />
       </head>
       <body>
-        <Header />
+        <Header user={data.user} />
         <Outlet />
         <ScrollRestoration />
         <Scripts />

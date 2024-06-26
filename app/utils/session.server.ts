@@ -7,6 +7,17 @@ interface LoginForm {
   password: string;
 }
 
+export async function register({ email, password }: LoginForm) {
+  const passwordHash = await bcrypt.hash(password, 10);
+  const user = await db.user.create({
+    data: {
+      email,
+      passwordHash,
+    },
+  });
+  return { id: user.id, email };
+}
+
 export async function login({ email, password }: LoginForm) {
   const userExists = await db.user.findUnique({
     where: {
@@ -78,4 +89,13 @@ export async function requireUserId(
     throw redirect(`/login?${searchParams}`);
   }
   return userId;
+}
+
+export async function logout(request: Request) {
+  const session = await getUserSession(request);
+  return redirect("/login", {
+    headers: {
+      "Set-Cookie": await storage.destroySession(session),
+    },
+  });
 }
