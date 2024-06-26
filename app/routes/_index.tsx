@@ -44,7 +44,7 @@ export default function Index() {
             create
           </button>
         </form>
-        <div className="shadow-xl p-2 rounded-lg bg-stone-800 flex flex-col gap-1">
+        <div className="shadow-xl p-2 rounded-lg bg-stone-800 flex flex-col gap-1 h-full">
           <h2 className="font-black">A small win</h2>
           <p className="text-xs italic">26/06/2024</p>
         </div>
