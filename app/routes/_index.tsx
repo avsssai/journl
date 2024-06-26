@@ -17,15 +17,20 @@ export default function Index() {
       <p className="text-sm mb-10">
         <i>The minimalist journaling app.</i>
       </p>
-      <div className="grid col-span-1 md:col-auto items-center">
+      <div className="grid grid-cols-1 md:grid-cols-8 items-center gap-2">
         <form action="/new">
           <button
             type="submit"
-            className="bg-stone-800 h-[100px] flex justify-center items-center rounded-lg p-2"
+            className="bg-stone-800 h-[100px] w-full flex gap-1 justify-center items-center rounded-lg p-2"
           >
             <Plus color="gray" strokeWidth={3} />
+            create
           </button>
         </form>
+        <div className="shadow-xl p-2 rounded-lg bg-stone-800 flex flex-col gap-1">
+          <h2 className="font-black">A small win</h2>
+          <p className="text-xs italic">26/06/2024</p>
+        </div>
       </div>
     </div>
   );
