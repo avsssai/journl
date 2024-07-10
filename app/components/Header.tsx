@@ -38,7 +38,9 @@ export default function Header({ user }: { user: string | null }) {
         <div className="flex gap-2 items-center">
           {user ? (
             <form action="/logout" method="post">
-              <Button type="submit">Logout</Button>
+              <Button type="submit" size={"xs"} variant={"outline"}>
+                Logout
+              </Button>
             </form>
           ) : (
             ""

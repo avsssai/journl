@@ -25,10 +25,8 @@ export default function NewPost() {
       <div className="flex gap-4 w-full flex-col md:flex-row">
         <div className="md:hidden">
           <Drawer direction="bottom">
-            <DrawerTrigger>
-              <Button variant={"outline"} size={"sm"}>
-                Open Calendar
-              </Button>
+            <DrawerTrigger className="border border-1 text-sm px-2">
+              Open Calendar
             </DrawerTrigger>
             <DrawerContent className="relative">
               <div className="absolute top-1 inset-0 mx-auto w-14 h-[4px] rounded-lg bg-slate-300"></div>
@@ -39,7 +37,7 @@ export default function NewPost() {
                 mode="single"
                 selected={date}
                 onSelect={setDate}
-                className="rounded-md border p-8 m-auto"
+                className="rounded-md border m-auto p-0"
                 disabled={{ after: today }}
               />
             </DrawerContent>
