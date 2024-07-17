@@ -1,5 +1,5 @@
 import React from "react";
-import { LoaderFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Calendar } from "~/components/ui/calendar";
 import { requireUserId } from "~/utils/session.server";
 import {
@@ -7,7 +7,11 @@ import {
   DrawerContent,
   DrawerTrigger,
 } from "~/components/ui/bottomUpDrawer";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
+import { Textarea } from "~/components/ui/textarea";
 import { Button } from "~/components/ui/button";
+import { format } from "date-fns";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await requireUserId(request);
@@ -16,13 +20,20 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   };
 };
 
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const form = await request.formData();
+  console.log(form.get("title"));
+  console.log(form.get("date"));
+  return null;
+};
+
 export default function NewPost() {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const today = new Date();
   return (
-    <div className="px-4 mt-10">
-      <h1 className="mb-8">New Post</h1>
-      <div className="flex gap-4 w-full flex-col md:flex-row">
+    <div className="px-4 mt-10 max-w-[1000px] mx-auto">
+      <h1 className="mb-8 text-4xl">New Post</h1>
+      <div className="flex gap-8 w-full flex-col md:flex-row">
         <div className="md:hidden">
           <Drawer direction="bottom">
             <DrawerTrigger className="border border-1 text-sm px-2">
@@ -44,7 +55,6 @@ export default function NewPost() {
           </Drawer>
         </div>
         <div className="hidden md:block">
-          <h2>Calendar</h2>
           <Calendar
             mode="single"
             selected={date}
@@ -54,7 +64,47 @@ export default function NewPost() {
           />
         </div>
         <div className="flex-1">
-          <h1>The editor comes here.</h1>
+          <form method="post">
+            <div className="mb-4">
+              <Label htmlFor="title" className="mb-1">
+                Title
+              </Label>
+              <Input
+                name="title"
+                id="title"
+                type="text"
+                placeholder="What are you gonna journal today?"
+              />
+            </div>
+
+            <div className="mb-4">
+              <Label htmlFor="date" className="mb-1">
+                Date
+              </Label>
+              <Input
+                name="date"
+                id="date"
+                disabled
+                type="text"
+                value={format(date!, "PPpp")}
+              />
+            </div>
+            <div className="mb-4">
+              <Label htmlFor="label" className="mb-1">
+                Journal
+              </Label>
+              <Textarea
+                placeholder="Sit back...relax..and write your journal."
+                rows={10}
+                name="journal"
+              />
+            </div>
+            <div>
+              <Button type="submit" variant={"outline"}>
+                Submit
+              </Button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
