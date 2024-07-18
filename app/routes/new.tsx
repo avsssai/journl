@@ -1,5 +1,5 @@
 import React from "react";
-import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node";
 import { Calendar } from "~/components/ui/calendar";
 import { requireUserId } from "~/utils/session.server";
 import {
@@ -12,6 +12,7 @@ import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
 import { Button } from "~/components/ui/button";
 import { format } from "date-fns";
+import { createNewJournal } from "~/utils/journal.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const userId = await requireUserId(request);
@@ -22,14 +23,18 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const form = await request.formData();
-  console.log(form.get("title"));
-  console.log(form.get("date"));
-  return null;
+  const formData = Object.fromEntries(form);
+  const newJournal = await createNewJournal(request, {
+    title: formData.title,
+    journal: formData.journal,
+  });
+  return json({ newJournal });
 };
 
 export default function NewPost() {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const today = new Date();
+
   return (
     <div className="px-4 mt-10 max-w-[1000px] mx-auto">
       <h1 className="mb-8 text-4xl">New Post</h1>
@@ -84,10 +89,11 @@ export default function NewPost() {
               <Input
                 name="date"
                 id="date"
-                disabled
+                readOnly
                 type="text"
                 value={format(date!, "PPpp")}
               />
+              <input type="hidden" name="date" value={date?.toISOString()} />
             </div>
             <div className="mb-4">
               <Label htmlFor="label" className="mb-1">
