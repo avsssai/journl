@@ -1,8 +1,10 @@
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { json, useActionData, useLoaderData } from "@remix-run/react";
 import { Plus } from "lucide-react";
 import { ModeToggle } from "~/components/mode-toggle";
 import { Button } from "~/components/ui/button";
 import { db } from "~/utils/db.server";
+import { getAllJournalsByUser } from "~/utils/journal.server";
 import { requireUserId } from "~/utils/session.server";
 
 export const meta: MetaFunction = () => {
@@ -19,15 +21,20 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
       id: userId,
     },
   });
-  return {
+  const journalsByUser = await getAllJournalsByUser(userId);
+
+  return json({
     user: {
       email: userDetails?.email,
       userId: userDetails?.id,
     },
-  };
+    journalsByUser,
+  });
 };
 
 export default function Index() {
+  let { user, journalsByUser } = useLoaderData<typeof loader>();
+  console.log(journalsByUser);
   return (
     <div className="px-4 mt-10">
       <h1 className="font-semibold">Welcome to Journl.</h1>

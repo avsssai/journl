@@ -9,3 +9,13 @@ export const emailExists = async (email: string): Promise<boolean> => {
   if (!retrieveEmail) return false;
   return true;
 };
+
+export const userIdExists = async (id: string): Promise<Boolean> => {
+  return Boolean(
+    await db.user.findUnique({
+      where: {
+        id,
+      },
+    })
+  );
+};
